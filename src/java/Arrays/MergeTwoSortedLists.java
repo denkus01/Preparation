@@ -1,6 +1,7 @@
 package Arrays;
 
 public class MergeTwoSortedLists {
+
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         ListNode head = new ListNode(0);
         ListNode handler = head;
@@ -22,12 +23,19 @@ public class MergeTwoSortedLists {
         return head.next;
     }
 
-    public static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int x) {
-            val = x;
-        }
+    public static void main(String[] args) {
+        MergeTwoSortedLists mergeTwoSortedLists = new MergeTwoSortedLists();
+       // mergeTwoSortedLists.mergeTwoLists()
     }
 }
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+    }
+}
+
+
