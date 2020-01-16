@@ -5,7 +5,7 @@ public class Task_7 {
      * Rotate Matrix: Given an image represented by an NxN matrix, where each pixel in the image is 4
      * bytes, write a method to rotate the image by 90 degrees. Can you do this in place?
      */
-    static int[][] rotate(int[][] matrix) {
+    private static int[][] rotate(int[][] matrix) {
         int n = matrix.length;
         for (int layer = 0; layer < n / 2; layer++) {
             int first = layer;
