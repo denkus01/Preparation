@@ -1,6 +1,5 @@
 package hackerrank.arrays;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 

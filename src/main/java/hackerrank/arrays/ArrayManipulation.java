@@ -25,6 +25,7 @@ public class ArrayManipulation {
 
     static long arrayManipulation(int n, int[][] queries) {
         long[] array = new long[n + 1];
+
         for (int[] query : queries) {
             int a = query[0], b = query[1], k = query[2];
             array[a] += k;
