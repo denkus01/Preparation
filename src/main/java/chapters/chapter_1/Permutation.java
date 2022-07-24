@@ -6,7 +6,7 @@ import java.util.Arrays;
  * Check Permutation: Given two strings, write a method to decide if one is a permutation of the
  * other.
  */
-public class Task_2 {
+public class Permutation {
     public static void main(String[] args) {
         String first = "acds";
         String second = "sdca";

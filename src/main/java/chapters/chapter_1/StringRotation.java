@@ -1,6 +1,6 @@
 package chapters.chapter_1;
 
-public class Task_9 {
+public class StringRotation {
     /**
      * String Rotation
      *

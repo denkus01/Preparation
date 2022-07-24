@@ -1,6 +1,6 @@
 package chapters.chapter_1;
 
-public class Task_6 {
+public class StringCompression {
     /**
      * String Compression: Implement a method to perform basic string compression using the counts
      * of repeated characters. For example, the string aabcccccaaa would become a2b1c5a3 . If the
