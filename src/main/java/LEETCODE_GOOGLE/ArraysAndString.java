@@ -6,12 +6,16 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Random;
+import java.util.Set;
 import java.util.Stack;
+
+import static java.util.Collections.sort;
 
 public class ArraysAndString {
     // 27.07/2022
@@ -672,14 +676,14 @@ public class ArraysAndString {
         return answer.toArray(new int[answer.size()][]);
     }
 
-    /** 11/08/2022
+    /**
+     * 11/08/2022
      * 46. Permutations
-     *
      */
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
-        boolean[] used ;
-        if(nums.length == 0) return res;
+        boolean[] used;
+        if (nums.length == 0) return res;
         used = new boolean[nums.length];
         List<Integer> permutation = new ArrayList<>();
         helper(nums, permutation, used, res);
@@ -687,7 +691,7 @@ public class ArraysAndString {
     }
 
     private void helper(int[] nums, List<Integer> perm, boolean[] used, List<List<Integer>> res) {
-        if(perm.size() == nums.length){
+        if (perm.size() == nums.length) {
             res.add(new ArrayList<>(perm));
             return;
         }
@@ -695,27 +699,257 @@ public class ArraysAndString {
             if (used[i]) continue;
             used[i] = true;
             perm.add(nums[i]);
-            helper(nums,perm, used, res);
+            helper(nums, perm, used, res);
             perm.remove(perm.size() - 1);
             used[i] = false;
         }
     }
 
-}
+    /**
+     * 13/08/2022
+     * 280. Wiggle Sort
+     * Input: nums = [3,5,2,1,6,4]
+     * Output: [3,5,1,6,2,4]
+     * <p>
+     * O(n)
+     * O(1)
+     */
 
-class Worker implements Comparable<Worker> {
-    public int quality, wage;
-
-    public Worker(int q, int w) {
-        quality = q;
-        wage = w;
+    public void wiggleSort(int[] nums) {
+        for (int i = 0; i < nums.length - 1; i++) {
+            if ((i % 2 == 0) == (nums[i] > nums[i + 1])) {
+                swap(nums, i, i + 1);
+            }
+        }
     }
 
-    public double ratio() {
-        return (double) wage / quality;
+    public void wiggleSort2(ArrayList<Integer> nums) {
+        for (int i = 0; i < nums.size() - 1; i++) {
+            if ((i % 2 == 0) == (nums.get(i) > nums.get(i + 1))) {
+                swap2(nums, i, i + 1);
+            }
+        }
     }
 
-    public int compareTo(Worker other) {
-        return Double.compare(ratio(), other.ratio());
+    private void swap2(ArrayList<Integer> arr, int l, int r) {
+        int temp = arr.get(l);
+        arr.set(l, arr.get(r));
+        arr.set(r, temp);
+    }
+
+
+    /**
+     * Hotel Bookings Possible
+     * <p>
+     * <p>
+     * https://www.interviewbit.com/problems/hotel-bookings-possible/
+     */
+
+    public boolean hotel(ArrayList<Integer> arrive, ArrayList<Integer> depart, int K) {
+        sort(arrive);
+        sort(depart);
+
+        // Number of rooms
+        int n = arrive.size();
+
+        int count = 0;
+        int indexArrival = 0;
+        int indexDeparture = 0;
+
+        while (indexArrival < n && indexDeparture < n) {
+            // Check the min
+            if (arrive.get(indexArrival) < depart.get(indexDeparture)) {
+                indexArrival++;
+                count++;
+
+                // If the current count exceeds the maximum number of rooms
+                if (count > K) {
+                    return false;
+                }
+            } else {
+                indexDeparture++;
+                count--;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * 1855. Maximum Distance Between a Pair of Values
+     */
+    public int maxDistance(int[] nums1, int[] nums2) {
+        int i = 0;
+        int j = 0;
+        int ans = 0;
+
+        while (i < nums1.length && j < nums2.length) {
+            if (nums1[i] > nums2[j]) {
+                i++;
+            } else {
+                ans = Math.max(ans, j - i);
+                j++;
+            }
+        }
+        return ans;
+    }
+
+// 15.08.2022
+
+    /**
+     * 41. First Missing Positive
+     * Time complexity: O(N)
+     * Space: O(1)
+     */
+    public int firstMissingPositive(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            int correct = nums[i] - 1;
+            if (correct < nums.length && correct >= 0 && nums[i] != nums[correct]) {
+                int temp = nums[i];
+                nums[i] = nums[correct];
+                nums[correct] = temp;
+            } else {
+                i++;
+            }
+        }
+
+
+        for (int n = 0; n < nums.length; n++) {
+            System.out.println(nums[n]);
+            if (n != nums[n] - 1)
+                return n + 1;
+        }
+        return i + 1;
+    }
+
+    public int firstMissingPositive2(ArrayList<Integer> nums) {
+        int i = 0;
+        while (i < nums.size()) {
+            int correct = nums.get(i) - 1;
+            if (correct < nums.size() && correct >= 0 && !nums.get(i).equals(nums.get(correct))) {
+                int temp = nums.get(i);
+                nums.set(i, nums.get(correct));
+                nums.set(correct, temp);
+            } else {
+                i++;
+            }
+        }
+
+
+        for (int n = 0; n < nums.size(); n++) {
+            System.out.println(nums.get(n));
+            if (n != nums.get(n) - 1)
+                return n + 1;
+        }
+        return i + 1;
+    }
+
+
+    /**
+     * 442. Find All Duplicates in an Array
+     */
+    public List<Integer> findDuplicates(int[] nums) {
+        List<Integer> ans = new ArrayList<>();
+        Set<Integer> seen = new HashSet<>();
+
+        for (int num : nums) {
+            if (seen.contains(num)) {
+                ans.add(num);
+            } else {
+                seen.add(num);
+            }
+        }
+
+        return ans;
+    }
+
+    /**
+     * 17.08.2022
+     * 1588****. Sum of All Odd Length Subarrays
+     */
+    public int sumOddLengthSubarrays(int[] arr) {
+        int res = 0;
+        int n = arr.length;
+
+        for (int i = 0; i < n; i++) {
+            int end = i + 1;
+            int start = n - i;
+            int total = start * end;
+            int odd = total / 2;
+            if (total % 2 == 1) {
+                odd++;
+            }
+            res += odd * arr[i];
+        }
+        return res;
+    }
+
+    static class Worker implements Comparable<Worker> {
+        public int quality, wage;
+
+        public Worker(int q, int w) {
+            quality = q;
+            wage = w;
+        }
+
+        public double ratio() {
+            return (double) wage / quality;
+        }
+
+        public int compareTo(Worker other) {
+            return Double.compare(ratio(), other.ratio());
+        }
+    }
+
+    /**
+     * 13.08.2022
+     * 146. LRU Cache
+     */
+
+    class LRUCache extends LinkedHashMap<Integer, Integer> {
+        public int capacity;
+
+        public LRUCache(int capacity) {
+            // Here 75 is load factor and access order is true which means least used element will be on top or first to be removed
+            super(capacity, 0.75F, true);
+            this.capacity = capacity;
+        }
+
+        public int get(int key) {
+            return super.getOrDefault(key, -1);
+        }
+
+        public void put(int key, int value) {
+            super.put(key, value);
+        }
+
+        //default function in LinkedHashMap. If this function returns true eldest entry will be removed
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
+            return size() > capacity;
+        }
+    }
+
+    class LRUCache2 {
+        int capacity;
+        LinkedHashMap<Integer, Integer> data;
+
+        public LRUCache2(int capacity) {
+            data = new LinkedHashMap<Integer, Integer>(capacity, 0.75f, true) {
+                protected boolean removeEldestEntry(Map.Entry eldest) {
+                    return size() > capacity;
+                }
+            };
+            this.capacity = capacity;
+        }
+
+        public int get(int key) {
+            return data.getOrDefault(key, -1);
+        }
+
+        public void put(int key, int value) {
+            data.put(key, value);
+        }
     }
 }
